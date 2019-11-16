@@ -3,6 +3,7 @@
 enum dz60rgb_layers {
 	_QWERTY,
 	_FN1,
+	_FN2,
 	_RGB
 };
 
@@ -14,12 +15,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,                     KC_RSFT,\
 		MO(_FN1), KC_LALT,  KC_LGUI,                      KC_SPC,                                 KC_RALT,  MO(_RGB), MO(_FN1),          KC_RCTL),
 	[_FN1] = LAYOUT_60_ansi( /* FN1 */
+		KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_MUTE,  KC_VOLD,  KC_VOLU,  KC_MPRV,  KC_MNXT,  KC_MPLY,  KC_DEL ,\
+		_______,  _______,  KC_UP,    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  RESET  ,\
+		_______,  KC_LEFT,  KC_DOWN,  KC_RIGHT, _______,  _______,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RIGHT, _______,  _______,            _______,\
+		MO(_FN2), _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                      _______,\
+		_______,  _______,  _______,                      _______,                                _______,  _______,  _______,            _______),
+	[_FN2] = LAYOUT_60_ansi( /* FN2 */
 		KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL ,\
 		_______,  _______,  KC_UP,    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  RESET  ,\
 		_______,  KC_LEFT,  KC_DOWN,  KC_RIGHT, _______,  _______,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RIGHT, _______,  _______,            _______,\
 		_______,  _______,  _______,  _______,  _______,  KC_MUTE,  KC_VOLD,  KC_VOLU,  KC_MPRV,  KC_MNXT,  KC_MPLY,                      _______,\
 		_______,  _______,  _______,                      _______,                                _______,  _______,  _______,            _______),
-	[_RGB] = LAYOUT_60_ansi( /* FN2 */
+	[_RGB] = LAYOUT_60_ansi( /* RGB */
 		KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL ,\
 		_______,  RGB_TOG,  _______,  RGB_HUI,  RGB_HUD,  RGB_SAI,  RGB_SAD,  RGB_VAI,  RGB_VAD,  RGB_MOD,  _______,  _______,  _______,  RESET  ,\
 		_______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  RGB_SPI,  RGB_SPD,  _______,  _______,            _______,\
@@ -62,7 +69,28 @@ void rgb_matrix_indicators_user(void) {
 		switch (biton32(layer_state)) {
 			case _QWERTY:
 				break;
+
 			case _FN1:
+				// WASD
+				rgb_matrix_set_color(25, 0xFF, 0x00, 0x00);
+				rgb_matrix_set_color(39, 0xFF, 0x00, 0x00);
+				rgb_matrix_set_color(38, 0xFF, 0x00, 0x00);
+				rgb_matrix_set_color(37, 0xFF, 0x00, 0x00);
+				// HJKL
+				rgb_matrix_set_color(34, 0xFF, 0x00, 0x00);
+				rgb_matrix_set_color(33, 0xFF, 0x00, 0x00);
+				rgb_matrix_set_color(32, 0xFF, 0x00, 0x00);
+				rgb_matrix_set_color(31, 0xFF, 0x00, 0x00);
+				// Media / Volume
+				rgb_matrix_set_color(01, 0xFF, 0x00, 0x00);
+				rgb_matrix_set_color(02, 0xFF, 0x00, 0x00);
+				rgb_matrix_set_color(03, 0xFF, 0x00, 0x00);
+				rgb_matrix_set_color(04, 0xFF, 0x00, 0x00);
+				rgb_matrix_set_color(05, 0xFF, 0x00, 0x00);
+				rgb_matrix_set_color(06, 0xFF, 0x00, 0x00);
+
+				break;
+			case _FN2:
 				// WASD
 				rgb_matrix_set_color(25, 0xFF, 0x00, 0x00);
 				rgb_matrix_set_color(39, 0xFF, 0x00, 0x00);
