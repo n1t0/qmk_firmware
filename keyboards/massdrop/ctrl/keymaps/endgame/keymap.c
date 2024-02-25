@@ -44,16 +44,10 @@ enum layout_names {
     _KL=0,       // Keys Layout: The main keyboard layout that has all the characters
     _FL,         // Function Layout: The function key activated layout with default functions and some added ones
     _ML,         // Mouse Layout: Mouse Keys and mouse movement
-    _GL,         // GIT Layout: GIT shortcuts and macros
-    _VL,         // VIM Layout: VIM shorcuts and macros
-    _YL,         // Yakuake Layout: Yakuake drop-down terminal shortcuts and macros
-    _EL,         // KDE Layout: Shortcuts for KDE desktop using default KDE shortcuts settings
 };
 
 enum tapdance_keycodes {
     TD_LGUI_ML = 0,     // Tap dance key to switch to mouse layer _ML
-    TD_APP_YL,
-    TD_CTRL_TERM,       // Tap dance key to open terminal on LCTRL double press
 };
 
 enum ctrl_keycodes {
@@ -73,56 +67,15 @@ enum ctrl_keycodes {
     TERMINAL,              // CTRL+ALT+T
 };
 
-enum string_macro_keycodes {
-    // The start of this enum should always be equal to end of ctrl_keycodes + 1
-    G_INIT = TERMINAL + 1, // git init
-    G_CLONE,               // git clone
-    G_CONF,                // git config --global
-    G_ADD,                 // git add
-    G_DIFF,                // git diff
-    G_RESET,               // git reset
-    G_REBAS,               // git rebase
-    G_BRANH,               // git branch
-    G_CHECK,               // git checkout
-    G_MERGE,               // git merge
-    G_REMTE,               // git remote add
-    G_FETCH,               // git fetch
-    G_PULL,                // git pull
-    G_PUSH,                // git push
-    G_COMM,                // git commit
-    G_STAT,                // git status
-    G_LOG,                 // git log
-};
 
 static uint16_t idle_timer;             // Idle LED timeout timer
 static uint8_t idle_second_counter;     // Idle LED seconds counter, counts seconds not milliseconds
 static uint8_t key_event_counter;       // This counter is used to check if any keys are being held
 
-static const char * sendstring_commands[] = {
-    "git init ",
-    "git clone ",
-    "git config --global ",
-    "git add ",
-    "git diff ",
-    "git reset ",
-    "git rebase ",
-    "git branch -b \"",
-    "git checkout ",
-    "git merge ",
-    "git remote add ",
-    "git fetch ",
-    "git pull ",
-    "git push ",
-    "git commit ",
-    "git status ",
-    "git log ",
-};
 
 //Associate our tap dance key with its functionality
 tap_dance_action_t tap_dance_actions[] = {
     [TD_LGUI_ML] = ACTION_TAP_DANCE_LAYER_TOGGLE(KC_LGUI, _ML),
-    [TD_APP_YL] = ACTION_TAP_DANCE_LAYER_TOGGLE(KC_APP, _YL),
-    [TD_CTRL_TERM] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, LCA(KC_T)),
 };
 
 #ifndef _______
@@ -144,13 +97,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,            KC_F1,          KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,        KC_F12,           KC_PSCR, KC_SCRL, KC_PAUS,
         KC_GRV,            KC_1,           KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,       KC_EQL,  KC_BSPC, KC_INS,  KC_HOME, KC_PGUP,
         KC_TAB,            KC_Q,           KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,       KC_RBRC, KC_BSLS, KC_DEL,  KC_END,  KC_PGDN,
-        KC_CAPS,           KC_A,           KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,       KC_ENT,
+        KC_LCTL,           KC_A,           KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,       KC_ENT,
         KC_LSFT,           KC_Z,           KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SC_SENT,                                  KC_UP,
-        TD(TD_CTRL_TERM),  TD(TD_LGUI_ML), KC_LALT,                   KC_SPC,                             KC_RALT, TT(_FL), TD(TD_APP_YL), KC_RCTL,          KC_LEFT, KC_DOWN, KC_RGHT
+        KC_LCTL,           KC_LALT,        KC_LGUI,                   KC_SPC,                             KC_RALT, TT(_FL), KC_APP,        KC_RCTL,          KC_LEFT, KC_DOWN, KC_RGHT
     ),
     [_FL] = LAYOUT(
         _______, DM_PLY1, DM_PLY2, _______,  _______, DM_REC1, DM_REC2, _______,  _______,  DM_RSTP, _______, KC_WAKE, KC_SLEP,          KC_MUTE, _______, _______,
-        _______, _______, TG(_ML), TG(_GL),  TG(_VL), TG(_YL), _______, _______,  _______,  ROUT_FM, ROUT_TG, ROUT_VD, ROUT_VI, _______, KC_MSTP, KC_MPLY, KC_VOLU,
+        _______, _______, TG(_ML), _______,  _______, _______, _______, _______,  _______,  ROUT_FM, ROUT_TG, ROUT_VD, ROUT_VI, _______, KC_MSTP, KC_MPLY, KC_VOLU,
         RGB_M_P, RGB_SPD, RGB_VAI, RGB_SPI,  RGB_HUI, RGB_SAI, _______, U_T_AUTO, U_T_AGCR, _______, _______, _______, _______, _______, KC_MPRV, KC_MNXT, KC_VOLD,
         _______, RGB_RMOD,RGB_VAD, RGB_MOD,  RGB_HUD, RGB_SAD, _______, _______,  _______,  _______, _______, _______, _______,
         _______, RGB_TOG, _______, COPY_ALL, _______, MD_BOOT, NK_TOGG, _______,  _______,  _______, _______, _______,                            KC_BRIU,
@@ -163,32 +116,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, SEL_CPY, _______, _______, _______, _______, _______, _______, _______, _______,                            KC_MS_U,
         _______, TG(_ML), _______,                   _______,                            _______, TG(_ML), _______, _______,          KC_MS_L, KC_MS_D, KC_MS_R
-    ),
-    [_GL] = LAYOUT(
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, G_REMTE, G_RESET, G_REBAS, _______, G_INIT,  _______, G_PULL,  G_PUSH,  _______, _______, _______, _______, _______,
-        _______, G_ADD,   G_STAT,  G_DIFF,  G_FETCH, _______, _______, _______, _______, G_LOG,   _______, _______, _______,
-        _______, G_CONF,  G_CHECK, G_CLONE, G_COMM,  G_BRANH, _______, G_MERGE, _______, _______, _______, _______,                            _______,
-        _______, _______, _______,                   _______,                            _______, TG(_GL), _______, _______,          _______, _______, _______
-    ),
-    // This layout doesn't have custom keycodes for now, just custom LED config
-    [_VL] = LAYOUT(
-        KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,    KC_F12,           KC_PSCR, KC_SCRL, KC_PAUS,
-        KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,   KC_EQL,  KC_BSPC, KC_INS,  KC_HOME, KC_PGUP,
-        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,   KC_RBRC, KC_BSLS, KC_DEL,  KC_END,  KC_PGDN,
-        KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,   KC_ENT,
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,   KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SC_SENT,                              KC_UP,
-        KC_LCTL, KC_LGUI, KC_LALT,                   KC_SPC,                            KC_RALT, TG(_VL), KC_APP,    KC_RCTL,          KC_LEFT, KC_DOWN, KC_RGHT
-    ),
-    // Works with https://github.com/ash0x0/config/blob/master/yakuake.shortcuts
-    [_YL] = LAYOUT(
-        KC_ESC, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,   KC_NO,  KC_NO,   KC_NO, KC_NO,            KC_NO,   KC_NO,   KC_NO,
-        KC_GRV, KC_1,  KC_2,  KC_3,  KC_4,  KC_5,  KC_6,  KC_7,  KC_8,    KC_9,   KC_0,    KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_HOME, KC_PGUP,
-        KC_NO,  KC_Q,  KC_NO, KC_E,  KC_NO, KC_T,  KC_NO, KC_NO, KC_I,    KC_NO,  KC_P,    KC_NO, KC_RBRC, KC_BSLS, KC_NO,   KC_END,  KC_PGDN,
-        KC_NO,  KC_A,  KC_NO, KC_D,  KC_NO, KC_G,  KC_NO, KC_J,  KC_K,    KC_L,   KC_SCLN, KC_NO, KC_NO,
-        KC_NO,  KC_Z,  KC_X,  KC_NO, KC_NO, KC_NO, KC_NO, KC_M,  KC_COMM, KC_DOT, KC_NO,   KC_NO,                            KC_UP,
-        KC_NO,  KC_NO, KC_NO,               KC_NO,                        KC_NO,  TG(_YL), KC_NO, KC_NO,            KC_LEFT, KC_DOWN, KC_RGHT
     ),
     /*
     [X] = LAYOUT(
@@ -242,30 +169,6 @@ const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
         _______, GOLD,    GOLD,    GOLD,   GOLD,    _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, CORAL,  _______, _______, _______, _______, _______, _______, _______, _______,                            GOLD,
         _______, PINK,    _______,                  _______,                                     _______, PINK,    _______, _______, GOLD,    GOLD,    GOLD
-    },
-    [_GL] = {
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, BLUE,    AZURE,   AZURE,   _______, CYAN,    _______, TURQ,    PURPLE,  _______, _______, _______, _______, _______,
-        _______, CORAL,   GREEN,   GREEN,   TURQ,    _______, _______, _______, _______, GREEN,   _______, _______, _______,
-        _______, CYAN,    CHART,   TURQ,    ORANGE,  CHART,   _______, CHART,   _______, _______, _______, _______,                            _______,
-        _______, _______, _______,                   _______,                            _______, PINK,    _______, _______,          _______, _______, _______
-    },
-    [_VL] = {
-        PURPLE,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
-        _______, _______, _______, TURQ,    _______, _______, _______, _______, TURQ,    _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, AZURE,   AZURE,   AZURE,   PURPLE,  _______, BLUE,    PURPLE,  PURPLE,  PURPLE,  BLUE,    _______, _______, _______, _______, _______, _______,
-        _______, PURPLE,  _______, BLUE,    _______, GOLD,    GOLDEN,  GOLDEN,  GOLDEN,  GOLDEN,  _______, _______, _______,
-        _______, _______, BLUE,    BLUE,    _______, _______, TURQ,    _______, _______, _______, TURQ,    _______,                            _______,
-        _______, _______, _______,                   _______,                            _______, PINK,    _______, _______,          _______, _______, _______
-    },
-    [_YL] = {
-        RED,     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
-        CHART,   BLUE,    BLUE,    BLUE,    BLUE,    BLUE,    BLUE,    BLUE,    BLUE,    BLUE,    BLUE,    _______, _______, _______, _______, PURPLE,  PURPLE,
-        _______, RED,     _______, BLUE,    _______, GOLD,    _______, _______, GREEN,   _______, MAGENT,  _______, GOLD,    GOLD,    _______, PURPLE,  PURPLE,
-        _______, BLUE,    _______, BLUE,    _______, MAGENT,  _______, GREEN,   GREEN,   GREEN,   MAGENT,  _______, _______,
-        _______, ORANGE,  ORANGE,  _______, _______, _______, _______, RED,     MAGENT,  MAGENT,  _______, _______,                            GREEN,
-        _______, _______, _______,                   _______,                   _______, PINK,    _______, _______,                   BLUE,    GREEN,   BLUE
     },
 };
 
@@ -361,11 +264,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     if (record->event.pressed) {
-        // The Yakuake config uses LGUI+Ctrl+Shift+<keycode>. KC_NO used for undesired key, all mapped ones get mods.
-        if (get_highest_layer(layer_state) == _YL && keycode != TG(_YL)) {
-            tap_code16(C(G(S(keycode))));
-            return false;
-        }
         switch (keycode) {
             case DBG_TOG:
                 TOGGLE_FLAG_AND_PRINT(debug_enable, "Debug mode");
@@ -446,9 +344,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     rgb_time_out_seconds = RGB_FAST_MODE_TIME_OUT;
                 }
                 rgb_time_out_fast_mode_enabled = !rgb_time_out_fast_mode_enabled;
-                return false;
-            case G_INIT ... G_LOG:
-                send_string_with_delay(sendstring_commands[keycode - G_INIT], 5);
                 return false;
         }
     }
