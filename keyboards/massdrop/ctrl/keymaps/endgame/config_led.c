@@ -75,8 +75,8 @@ led_config_t g_led_config = { {
 #ifdef USB_LED_INDICATOR_ENABLE
 bool rgb_matrix_indicators_kb(void)
 {
-  md_rgb_matrix_indicators();
-    return rgb_matrix_indicators_user();
+  md_rgb_matrix_indicators_advanced(0, ISSI3733_LED_COUNT);
+  return rgb_matrix_indicators_user();
 }
 #endif // USB_LED_INDICATOR_ENABLE
 
