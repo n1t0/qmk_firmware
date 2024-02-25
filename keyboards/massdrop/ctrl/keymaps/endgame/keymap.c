@@ -125,6 +125,10 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_CTRL_TERM] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, LCA(KC_T)),
 };
 
+#ifndef _______
+#define _______ KC_TRNS
+#endif
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
     [DEFAULT] = LAYOUT(
@@ -216,7 +220,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef _______
 #undef _______
+#endif
+
+#ifndef _______
 #define _______ {0, 0, 0}
+#endif
 
 const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
     [_FL] = {
@@ -261,6 +269,7 @@ const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
     },
 };
 
+#ifdef _______
 #undef _______
 #define _______ KC_TRNS
 #endif
@@ -470,10 +479,10 @@ bool rgb_matrix_indicators_user(void) {
     if (disable_layer_color ||
         rgb_matrix_get_flags() == LED_FLAG_NONE ||
         rgb_matrix_get_flags() == LED_FLAG_UNDERGLOW) {
-            return;
+            return false;
         }
     set_layer_color(get_highest_layer(layer_state));
-    return false;
+    return true;
 }
 
 /* This is a test function for Raw HID, which is currently not implemented for this keyboard */

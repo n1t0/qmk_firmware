@@ -223,7 +223,7 @@ static void print_status(void) {
 
         "host_keyboard_leds(): %02X\n"
         "keyboard_protocol: %02X\n"
-        "keyboard_idle: %02X\n"
+        //"keyboard_idle: %02X\n"
 #ifdef NKRO_ENABLE
         "keymap_config.nkro: %02X\n"
 #endif
@@ -231,7 +231,7 @@ static void print_status(void) {
 
         , host_keyboard_leds()
         , keyboard_protocol
-        , keyboard_idle
+        //, keyboard_idle
 #ifdef NKRO_ENABLE
         , keymap_config.nkro
 #endif
